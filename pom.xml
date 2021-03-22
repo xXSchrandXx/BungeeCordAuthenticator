@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>de.xxschrandxx</groupId>
+    <artifactId>spigotplugins-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  
+  <name>BungeeCordAuthenticator</name>
+  <artifactId>BungeeCordAuthenticator</artifactId>
+  <groupId>de.xxschrandxx.bca</groupId>
+  <version>0.0.3-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <dependencies>
+
+    <!-- API Dependency -->
+    <dependency>
+      <groupId>de.xxschrandxx.api</groupId>
+      <artifactId>SchrandAPI</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <!-- Metrics Dependency -->
+    <dependency>
+      <groupId>org.bstats</groupId>
+      <artifactId>bstats-bungeecord</artifactId>
+      <version>2.2.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.bstats</groupId>
+      <artifactId>bstats-base</artifactId>
+      <version>2.2.1</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- HikariCP Dependency -->
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>3.4.5</version>
+    </dependency>
+
+    <!-- LoggerFactory Dependency -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.7.30</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.30</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.2</version>
+        <executions>
+          <execution>
+            <id>Add API</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <inherited>true</inherited>
+            <configuration>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <relocations>
+                <relocation>
+                  <pattern>com.zaxxer</pattern>
+                  <shadedPattern>de.xxschrandxx.lib.com.zaxxer</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.slf4j</pattern>
+                  <shadedPattern>de.xxschrandxx.lib.org.slf4j</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.bstats</pattern>
+                  <shadedPattern>de.xxschrandxx.lib.org.bstats</shadedPattern>
+                </relocation>
+              </relocations>
+              <artifactSet>
+                <includes>
+                  <include>de.xxschrandxx.api:SchrandAPI</include>
+                  <include>org.bstats:bstats-bungeecord</include>
+                  <include>org.bstats:bstats-base</include>
+                  <include>com.zaxxer:HikariCP:jar:*</include>
+                  <include>org.slf4j:slf4j-jdk14:jar:*</include>
+                  <include>org.slf4j:slf4j-api:jar:*</include>
+                </includes>
+              </artifactSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      </plugins>
+  </build>
+
+</project>
