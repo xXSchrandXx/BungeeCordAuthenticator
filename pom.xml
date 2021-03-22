@@ -6,6 +6,7 @@
     <groupId>de.xxschrandxx</groupId>
     <artifactId>spigotplugins-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../SpigotPlugins/pom.xml</relativePath>
   </parent>
   
   <name>BungeeCordAuthenticator</name>
