@@ -358,6 +358,7 @@ public class ConfigHandler {
   public String BCABForceRegisterSuccess;
   public String BCABForcePasswordSuccess;
   public String BCABInfoSuccess;
+  public String BCABVersion;
 
   public void loadMessage() {
     boolean error = false;
@@ -708,7 +709,7 @@ public class ConfigHandler {
     }
     else {
       bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
-      message.set(path, "Usage: /bcab <reload/forcelogin/forcereset/forceregister/forcepassword/info> []");
+      message.set(path, "Usage: /bcab <reload/forcelogin/forcereset/forceregister/forcepassword/info/version> []");
       error = true;
     }
     //BCABPermission
@@ -866,6 +867,18 @@ public class ConfigHandler {
         "  &7Lastseen: &r%lastseen%" + '\n' +
         "  &7LastIP: &r%lastseen%" + '\n' +
         "  &7Version: &r%version%");
+      error = true;
+    }
+    //BCABVersion
+    path = "bcab.version";
+    if (message.contains(path)) {
+      BCABVersion = color(message.getString(path));
+    }
+    else {
+      bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
+      message.set(path, "Info about %pluginname%:" + '\n' +
+        "  &7Using version: %version%" + '\n' +
+        "  &7Running on: &r%server%");
       error = true;
     }
 

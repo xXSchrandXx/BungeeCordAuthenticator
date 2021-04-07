@@ -1,6 +1,6 @@
 name: ${project.artifactId}Bukkit
 main: ${project.groupId}.bukkit.${project.artifactId}Bukkit
-version: ${project.version}
+version: ${project.version} ${myBuildNumberVariable}
 author: xXSchrandXx
 description: ${project.artifactId}Bukkit
 softdepend: []

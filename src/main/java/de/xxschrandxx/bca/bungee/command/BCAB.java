@@ -32,6 +32,10 @@ public class BCAB extends Command {
         executereload(sender);
         return;
       }
+      if (args[0].equalsIgnoreCase("version")) {
+        executeversion(sender);
+        return;
+      }
     }
     if (args.length == 2) {
       if (args[0].equalsIgnoreCase("forcelogin")) {
@@ -275,6 +279,14 @@ public class BCAB extends Command {
       return;
     }
     sender.sendMessage(new TextComponent(bcab.getAPI().getConfigHandler().Prefix + bcab.getAPI().getConfigHandler().BCABForcePasswordSuccess.replace("%player%", useroruuid)));
+  }
+
+  public void executeversion(CommandSender sender) {
+    if (!sender.hasPermission("bcab.admin.version")) {
+      sender.sendMessage(new TextComponent(bcab.getAPI().getConfigHandler().Prefix + bcab.getAPI().getConfigHandler().BCABPermission.replace("%permission%", "bcab.admin.version")));
+      return;
+    }
+    sender.sendMessage(new TextComponent(bcab.getAPI().getConfigHandler().Prefix + bcab.getAPI().getConfigHandler().BCABVersion.replace("%pluginname%", bcab.getDescription().getName()).replace("%version%", bcab.getDescription().getVersion()).replace("%server%", bcab.getProxy().getVersion())));
   }
 
 }
