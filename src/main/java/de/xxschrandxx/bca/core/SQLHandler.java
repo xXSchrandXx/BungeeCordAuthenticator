@@ -613,7 +613,7 @@ public class SQLHandler {
     }
     if (uuids.containsKey(uuid))
       return uuids.get(uuid);
-    logger.warning("SQLHandler.getType | returns null.");
+    logger.warning("SQLHandler.getVersion | returns null.");
     return null;
   }
 
@@ -642,7 +642,7 @@ public class SQLHandler {
     }
     if (names.containsKey(playername))
       return names.get(playername);
-    logger.warning("SQLHandler.getType | returns null.");
+    logger.warning("SQLHandler.getVersion | returns null.");
     return null;
   }
 

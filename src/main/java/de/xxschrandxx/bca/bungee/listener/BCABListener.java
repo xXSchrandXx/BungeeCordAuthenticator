@@ -38,15 +38,22 @@ public class BCABListener implements Listener {
     //First check the Version in database
     try {
       Integer version = bcab.getAPI().getSQL().getVersion(playername);
-      if (version == 0) {
+      if (version == null) {
         bcab.getAPI().getSQL().setUUID(playername, uuid);
         bcab.getAPI().getSQL().setVersion(uuid);
       }
-      if (version == 1) {
+      else if (version == 0) {
+        bcab.getAPI().getSQL().setUUID(playername, uuid);
         bcab.getAPI().getSQL().setVersion(uuid);
       }
+      else if (version == 1) {
+        bcab.getAPI().getSQL().setVersion(uuid);
+      }
+      else {
+        throw new NullPointerException("Version of name=" + playername + ", uuid=" + uuid + " is broken.");
+      }
     }
-    catch (SQLException e) {
+    catch (NullPointerException | SQLException e) {
       event.getPlayer().disconnect(new TextComponent(bcab.getAPI().getConfigHandler().Prefix + bcab.getAPI().getConfigHandler().SQLError));
       e.printStackTrace();
       return;
