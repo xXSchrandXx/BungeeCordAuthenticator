@@ -87,13 +87,13 @@ public class BungeeCordAuthenticatorBungeeAPI {
     return opensessions;
   }
 
-  private ConcurrentHashMap<UUID, UnauthedTask> unauthedkick = new ConcurrentHashMap<UUID, UnauthedTask>();
-  public void addUnauthedKick(ProxiedPlayer player) {
-    if (!unauthedkick.containsKey(player.getUniqueId()))
-      unauthedkick.put(player.getUniqueId(), new UnauthedTask(bcab, player));
+  private ConcurrentHashMap<UUID, UnauthedTask> unauthed = new ConcurrentHashMap<UUID, UnauthedTask>();
+  public void addUnauthedTask(ProxiedPlayer player) {
+    if (!unauthed.containsKey(player.getUniqueId()))
+      unauthed.put(player.getUniqueId(), new UnauthedTask(bcab, player));
   }
-  public ConcurrentHashMap<UUID, UnauthedTask> getUnauthedKick() {
-    return unauthedkick;
+  public ConcurrentHashMap<UUID, UnauthedTask> getUnauthedTasks() {
+    return unauthed;
   }
 
   private ConcurrentHashMap<UUID, Integer> logintries = new ConcurrentHashMap<UUID, Integer>();
@@ -156,9 +156,9 @@ public class BungeeCordAuthenticatorBungeeAPI {
     if (logintries.contains(uuid)) {
       clearLoginTries(uuid);
     }
-    if (unauthedkick.containsKey(uuid)) {
-      unauthedkick.get(uuid).cancel();
-      unauthedkick.remove(uuid);
+    if (unauthed.containsKey(uuid)) {
+      unauthed.get(uuid).cancel();
+      unauthed.remove(uuid);
     }
     if (getConfigHandler().isDebugging) getLogger().info("BungeeCordAuthenticatorBungeeAPI.setAuthenticated | Try to send pluginmessage from " + player.getName() + " on " + player.getServer().getInfo().getName() + ": " + PluginChannels.login + ", " + uuid.toString());
     Server server = player.getServer();

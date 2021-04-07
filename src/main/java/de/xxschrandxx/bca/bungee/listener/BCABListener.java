@@ -105,16 +105,13 @@ public class BCABListener implements Listener {
       e.printStackTrace();
       return;
     }
-    if (!bcab.getAPI().getConfigHandler().UnauthenticatedKickEnabled) {
-      return;
-    }
     if (bcab.getAPI().isAuthenticated(event.getPlayer())) {
       return;
     }
     if (bcab.getAPI().hasOpenSession(event.getPlayer())) {
       return;
     }
-    bcab.getAPI().addUnauthedKick(event.getPlayer());
+    bcab.getAPI().addUnauthedTask(event.getPlayer());
   }
 
   @EventHandler(priority = EventPriority.LOWEST)

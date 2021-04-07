@@ -67,7 +67,8 @@ public class ConfigHandler {
   //UnauthedTask
   public Boolean UnauthenticatedKickEnabled;
   public Integer UnauthenticatedKickLength;
-
+  public Boolean UnauthenticatedReminderEnabled;
+  public Integer UnauthenticatedReminderInterval;
 
   public void loadConfig() {
     boolean error = false;
@@ -203,7 +204,7 @@ public class ConfigHandler {
     }
     //Unauthenticated
     //UnauthenticatedKickEnabled
-    path = "unauthenticatedkick.enabled";
+    path = "unauthenticated.kick.enabled";
     if (config.contains(path)) {
       UnauthenticatedKickEnabled = config.getBoolean(path);
     }
@@ -213,7 +214,7 @@ public class ConfigHandler {
       error = true;
     }
     //UnauthenticatedKickLength
-    path = "unauthenticatedkick.length";
+    path = "unauthenticated.kick.length";
     if (config.contains(path)) {
       UnauthenticatedKickLength = config.getInt(path);
     }
@@ -222,11 +223,32 @@ public class ConfigHandler {
       config.set(path, 2);
       error = true;
     }
+    //UnauthenticatedReminderEnabled
+    path = "unauthenticated.reminder.enabled";
+    if (config.contains(path)) {
+      UnauthenticatedReminderEnabled = config.getBoolean(path);
+    }
+    else {
+      bcab.getLogger().warning("loadConfig() | " + path + " is not given. Setting it...");
+      config.set(path, true);
+      error = true;
+    }
+    //UnauthenticatedReminderInterval
+    path = "unauthenticated.reminder.interval";
+    if (config.contains(path)) {
+      UnauthenticatedReminderInterval = config.getInt(path);
+    }
+    else {
+      bcab.getLogger().warning("loadConfig() | " + path + " is not given. Setting it...");
+      config.set(path, 10);
+      error = true;
+    }
 
     if (isDebugging != null) {
       if (isDebugging)
         bcab.getLogger().info("DEBUG | " +
           "isDebuggin=" + isDebugging +
+          ", Checktype=" + Checktype +
           ", SessionEnabled=" + SessionEnabled +
           ", SessionLength=" + SessionLength +
           ", MaxAccountsPerIP=" + MaxAccountsPerIP +
@@ -237,7 +259,9 @@ public class ConfigHandler {
           ", AllowedCommands=" + AllowedCommands +
           ", AllowMessageReceive=" + AllowMessageReceive +
           ", UnauthenticatedKickEnabled=" + UnauthenticatedKickEnabled +
-          ", UnauthenticatedKickLength=" + UnauthenticatedKickLength
+          ", UnauthenticatedKickLength=" + UnauthenticatedKickLength +
+          ", UnauthenticatedReminderEnabled=" + UnauthenticatedReminderEnabled +
+          ", UnauthenticatedReminderInterval=" + UnauthenticatedReminderInterval
           );
     }
 
@@ -338,8 +362,10 @@ public class ConfigHandler {
   public String DenyMessageSend;
   public String DenyCommandSend;
 
-  //UnauthenticatedKick
+  //Unauthenticated
   public String UnauthenticatedKickMessage;
+  public String UnauthenticatedReminderMessageRegister;
+  public String UnauthenticatedReminderMessageLogin;
 
   //BCAB
   public String BCABUsage;
@@ -692,13 +718,33 @@ public class ConfigHandler {
       error = true;
     }
     //UnauthenticatedKickMessage
-    path = "unauthenticatedkick.message";
+    path = "unauthenticated.kick.message";
     if (message.contains(path)) {
       UnauthenticatedKickMessage = color(message.getString(path));
     }
     else {
       bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
       message.set(path, "It took you too long to log in.");
+      error = true;
+    }
+    //UnauthenticatedReminderMessageRegister
+    path = "unauthenticated.reminder.message.register";
+    if (message.contains(path)) {
+      UnauthenticatedReminderMessageRegister = color(message.getString(path));
+    }
+    else {
+      bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
+      message.set(path, "Please register with: &c/register [password] [password]");
+      error = true;
+    }
+    //UnauthenticatedReminderMessageLogin
+    path = "unauthenticated.reminder.message.login";
+    if (message.contains(path)) {
+      UnauthenticatedReminderMessageLogin = color(message.getString(path));
+    }
+    else {
+      bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
+      message.set(path, "Please login with: &c/login [password]");
       error = true;
     }
     //BCAB
