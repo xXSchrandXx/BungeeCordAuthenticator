@@ -28,11 +28,11 @@ Versions:
 <ol>
 <li>Put the BungeeCordAuthenticator JAR into your BungeeCords plugins folder.</li>
 <li>Open the `hikariconfig.properties` in the BungeeCordAuthenticatorBungee folder.</li>
-<li>Modify `username`, `password` and `dataSource.databaseName` to your sql login data.</li>
+<li>Modify `jdbcUrl`, `username`, `password` and `dataSource.databaseName` to your sql login data.</li>
 <li>Optionally modify the config.yml and the message.yml in the BungeeCordAuthenticatorBungee folder.</li>
 <li>Put the BungeeCordAuthenticator JAR into your Spigots plugins folder.</li>
 <li>Open the `hikariconfig.properties` in the BungeeCordAuthenticatorBungee folder.</li>
-<li>Modify `username`, `password` and `dataSource.databaseName` to your sql login data.</li>
+<li>Modify `jdbcUrl`,  `username`, `password` and `dataSource.databaseName` to your sql login data.</li>
 <li>Optionally modify the config.yml and the message.yml in the BungeeCordAuthenticatorBungee folder.</li>
 <li>Repead step 5 to 8 for every Spigot server.</li>
 </ol>
