@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.xxschrandxx.bca.bungee.BungeeCordAuthenticatorBungee;
-import de.xxschrandxx.bca.core.CheckType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -43,9 +42,6 @@ public class ConfigHandler {
   //Config Values
   //debug
   public Boolean isDebugging;
-
-  //Checktype
-  public CheckType Checktype;
 
   //Sessions
   public Boolean SessionEnabled;
@@ -94,16 +90,6 @@ public class ConfigHandler {
       bcab.getLogger().warning("loadConfig() | " + path + " is not given. Setting it...");
       config.set(path, false);
       error = true;
-    }
-    //Checktype
-    path = "checktype";
-    if (config.contains(path)) {
-      Checktype = CheckType.valueOf(config.getString(path));
-    }
-    else {
-      error = true;
-      bcab.getLogger().warning("loadConfig() | " + path + " is missing, setting it...");
-      config.set(path, CheckType.SQL.name());
     }
     //Sesions
     //SessionEnabled
@@ -245,10 +231,9 @@ public class ConfigHandler {
     }
 
     if (isDebugging != null) {
-      if (isDebugging)
+      if (isDebugging && !error)
         bcab.getLogger().info("DEBUG | " +
           "isDebuggin=" + isDebugging +
-          ", Checktype=" + Checktype +
           ", SessionEnabled=" + SessionEnabled +
           ", SessionLength=" + SessionLength +
           ", MaxAccountsPerIP=" + MaxAccountsPerIP +
@@ -649,7 +634,7 @@ public class ConfigHandler {
     //ResetUsage
     path = "reset.usage";
     if (message.contains(path)) {
-      ChangePasswordSuccessful = color(message.getString(path));
+      ResetUsage = color(message.getString(path));
     }
     else {
       bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
@@ -659,7 +644,7 @@ public class ConfigHandler {
     //ResetNotRegistered
     path = "reset.notregistered";
     if (message.contains(path)) {
-      ChangePasswordSuccessful = color(message.getString(path));
+      ResetNotRegistered = color(message.getString(path));
     }
     else {
       bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
@@ -669,7 +654,7 @@ public class ConfigHandler {
     //ResetWrongPassword
     path = "reset.wrongpassword";
     if (message.contains(path)) {
-      ChangePasswordSuccessful = color(message.getString(path));
+      ResetWrongPassword = color(message.getString(path));
     }
     else {
       bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
@@ -679,7 +664,7 @@ public class ConfigHandler {
     //ResetSuccessful
     path = "reset.successful";
     if (message.contains(path)) {
-      ChangePasswordSuccessful = color(message.getString(path));
+      ResetSuccessful = color(message.getString(path));
     }
     else {
       bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
@@ -791,7 +776,7 @@ public class ConfigHandler {
     //BCABReloadLogin
     path = "bcab.reload.authenticate";
     if (message.contains(path)) {
-      BCABReload = color(message.getString(path));
+      BCABReloadLogin = color(message.getString(path));
     }
     else {
       bcab.getLogger().warning("loadMessage() | " + path + " is not given. Setting it...");
@@ -927,6 +912,61 @@ public class ConfigHandler {
         "  &7Running on: &r%server%");
       error = true;
     }
+
+    if (isDebugging && !error)
+    bcab.getLogger().info("DEBUG | " +
+      "Prefix=" + Prefix + "&r" + '\n' +
+      ", PlayerOnly=" + PlayerOnly + "&r" + '\n' +
+      ", SQLError=" + SQLError + "&r" + '\n' +
+      ", RegisterUsage=" + RegisterUsage + "&r" + '\n' +
+      ", RegisterSamePassword=" + RegisterSamePassword + "&r" + '\n' +
+      ", RegisterNotEnoughCharacters=" + RegisterNotEnoughCharacters + "&r" + '\n' +
+      ", RegisterAlreadyRegistered=" + RegisterAlreadyRegistered + "&r" + '\n' +
+      ", RegisterMaxAccountsPerIP=" + RegisterMaxAccountsPerIP + "&r" + '\n' +
+      ", RegisterError=" + RegisterError + "&r" + '\n' +
+      ", RegisterSuccessful=" + RegisterSuccessful + "&r" + '\n' +
+      ", LoginUsage=" + LoginUsage + "&r" + '\n' +
+      ", LoginAlreadyAuthenticated=" + LoginAlreadyAuthenticated + "&r" + '\n' +
+      ", LoginNotRegistered=" + LoginNotRegistered + "&r" + '\n' +
+      ", LoginWrongPassword=" + LoginWrongPassword + "&r" + '\n' +
+      ", LoginMaxAttempts=" + LoginMaxAttempts + "&r" + '\n' +
+      ", LoginSuccessful=" + LoginSuccessful + "&r" + '\n' +
+      ", LogoutNotAuthenticated=" + LogoutNotAuthenticated + "&r" + '\n' +
+      ", LogoutSuccessful=" + LogoutSuccessful + "&r" + '\n' +
+      ", ChangePasswordUsage=" + ChangePasswordUsage + "&r" + '\n' +
+      ", ChangePasswordNotEnoughCharacters=" + ChangePasswordNotEnoughCharacters + "&r" + '\n' +
+      ", ChangePasswordNotAuthenticated=" + ChangePasswordNotAuthenticated + "&r" + '\n' +
+      ", ChangePasswordNotRegistered=" + ChangePasswordNotRegistered + "&r" + '\n' +
+      ", ChangePasswordWrongPassword=" + ChangePasswordWrongPassword + "&r" + '\n' +
+      ", ChangePasswordSuccessful=" + ChangePasswordSuccessful + "&r" + '\n' +
+      ", ResetUsage=" + ResetUsage + "&r" + '\n' +
+      ", ResetNotRegistered=" + ResetNotRegistered + "&r" + '\n' +
+      ", ResetWrongPassword=" + ResetWrongPassword + "&r" + '\n' +
+      ", ResetSuccessful=" + ResetSuccessful + "&r" + '\n' +
+      ", DenyServerSwitch=" + DenyServerSwitch + "&r" + '\n' +
+      ", DenyMessageSend=" + DenyMessageSend + "&r" + '\n' +
+      ", DenyCommandSend=" + DenyCommandSend + "&r" + '\n' +
+      ", UnauthenticatedKickMessage=" + UnauthenticatedKickMessage + "&r" + '\n' +
+      ", UnauthenticatedReminderMessageRegister=" + UnauthenticatedReminderMessageRegister + "&r" + '\n' +
+      ", UnauthenticatedReminderMessageLogin=" + UnauthenticatedReminderMessageLogin + "&r" + '\n' +
+      ", BCABUsage=" + BCABUsage + "&r" + '\n' +
+      ", BCABPermission=" + BCABPermission + "&r" + '\n' +
+      ", BCABSQLshutdown=" + BCABSQLshutdown + "&r" + '\n' +
+      ", BCABReload=" + BCABReload + "&r" + '\n' +
+      ", BCABReloadLogin=" + BCABReloadLogin + "&r" + '\n' +
+      ", BCABUserUuidEmpty=" + BCABUserUuidEmpty + "&r" + '\n' +
+      ", BCABPasswordEmpty=" + BCABPasswordEmpty + "&r" + '\n' +
+      ", BCABUserUuidNull=" + BCABUserUuidNull + "&r" + '\n' +
+      ", BCABAlreadyAuthenticated=" + BCABAlreadyAuthenticated + "&r" + '\n' +
+      ", BCABForceLoginSuccess=" + BCABForceLoginSuccess + "&r" + '\n' +
+      ", BCABNotAuthenticated=" + BCABNotAuthenticated + "&r" + '\n' +
+      ", BCABNotConnected=" + BCABNotConnected + "&r" + '\n' +
+      ", BCABForceResetSuccess=" + BCABForceResetSuccess + "&r" + '\n' +
+      ", BCABForceRegisterSuccess=" + BCABForceRegisterSuccess + "&r" + '\n' +
+      ", BCABForcePasswordSuccess=" + BCABForcePasswordSuccess + "&r" + '\n' +
+      ", BCABInfoSuccess=" + BCABInfoSuccess + "&r" + '\n' +
+      ", BCABVersion=" + BCABVersion
+    );
 
     if (error) {
       saveMessage();

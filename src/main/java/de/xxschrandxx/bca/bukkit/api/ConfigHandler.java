@@ -13,7 +13,6 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import de.xxschrandxx.bca.bukkit.BungeeCordAuthenticatorBukkit;
-import de.xxschrandxx.bca.core.CheckType;
 
 public class ConfigHandler {
 
@@ -33,8 +32,7 @@ public class ConfigHandler {
     loadMessage();
 
     // Loading hikariconfig.properties
-    if (Checktype == CheckType.SQL)
-      loadHikaryCP();
+    loadHikaryCP();
 
   }
 
@@ -47,8 +45,6 @@ public class ConfigHandler {
   // Config Values
   // debug
   public Boolean isDebugging;
-
-  public CheckType Checktype;
 
   // Protection
   public Boolean AllowMessageReceive;
@@ -86,16 +82,6 @@ public class ConfigHandler {
       error = true;
       bcab.getLogger().warning("loadConfig() | " + path + " is missing, setting it...");
       config.set(path, false);
-    }
-    //Checktype
-    path = "checktype";
-    if (config.contains(path)) {
-      Checktype = CheckType.valueOf(config.getString(path));
-    }
-    else {
-      error = true;
-      bcab.getLogger().warning("loadConfig() | " + path + " is missing, setting it...");
-      config.set(path, CheckType.SQL.name());
     }
     //Protection
     //AllowMessageReceive
@@ -298,10 +284,9 @@ public class ConfigHandler {
     }
 
     if (isDebugging != null) {
-      if (isDebugging)
+      if (isDebugging && !error)
         bcab.getLogger().info("DEBUG | " +
         "isDebugging=" + isDebugging +
-        ", CheckType=" + Checktype.name() +
         ", AllowMessageSend=" + AllowMessageSend +
         ", AllowMessageReceive=" + AllowMessageReceive +
         ", AllowedCommands=" + AllowedCommands +
@@ -397,6 +382,15 @@ public class ConfigHandler {
       bcab.getLogger().warning("loadMessage() | " + path + " is missing, setting it...");
       message.set(path, "You are not allowed to send commands.");
     }
+
+    if (isDebugging && !error)
+      bcab.getLogger().info("DEBUG | " +
+      ", Prefix=" + Prefix +
+      ", SQLError=" + SQLError +
+      ", DenyMessageSend=" + DenyMessageSend +
+      ", DenyCommandSend=" + DenyCommandSend
+      );
+
     if (error) {
       saveMessage();
       loadMessage();

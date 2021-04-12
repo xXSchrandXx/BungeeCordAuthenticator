@@ -3,18 +3,11 @@ package de.xxschrandxx.bca.bungee.listener;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
 import de.xxschrandxx.bca.bungee.BungeeCordAuthenticatorBungee;
-import de.xxschrandxx.bca.core.PluginChannels;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerDisconnectEvent;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
@@ -48,9 +41,6 @@ public class BCABListener implements Listener {
       }
       else if (version == 1) {
         bcab.getAPI().getSQL().setVersion(uuid);
-      }
-      else {
-        throw new NullPointerException("Version of name=" + playername + ", uuid=" + uuid + " is broken.");
       }
     }
     catch (NullPointerException | SQLException e) {
@@ -143,38 +133,6 @@ public class BCABListener implements Listener {
         e.printStackTrace();
       }
     }
-  }
-
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onServerSwitch(ServerSwitchEvent event) {
-    ByteArrayDataOutput out = ByteStreams.newDataOutput();
-    UUID uuid = event.getPlayer().getUniqueId();
-    out.writeUTF(uuid.toString());
-    if (event.getFrom() != null) {
-      event.getFrom().sendData(PluginChannels.logout, out.toByteArray());
-    }
-    event.getPlayer().getServer().sendData(PluginChannels.login, out.toByteArray());
-  }
-  
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onServerConnectEvent(ServerConnectEvent event) {
-    if (event.isCancelled()) {
-      return;
-    }
-    //Sending PluginMessage
-    ByteArrayDataOutput out = ByteStreams.newDataOutput();
-    UUID uuid = event.getPlayer().getUniqueId();
-    out.writeUTF(uuid.toString());
-    event.getTarget().sendData(PluginChannels.login, out.toByteArray());
-  }
-
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onServerDisconnectEvent(ServerDisconnectEvent event) {
-    //Sending PluginMessage
-    ByteArrayDataOutput out = ByteStreams.newDataOutput();
-    UUID uuid = event.getPlayer().getUniqueId();
-    out.writeUTF(uuid.toString());
-    event.getTarget().sendData(PluginChannels.logout, out.toByteArray());
   }
 
 }

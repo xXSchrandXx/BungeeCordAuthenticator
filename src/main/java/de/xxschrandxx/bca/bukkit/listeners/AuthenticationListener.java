@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.scheduler.BukkitTask;
 
 import de.xxschrandxx.bca.bukkit.BungeeCordAuthenticatorBukkit;
-import de.xxschrandxx.bca.core.CheckType;
 import de.xxschrandxx.bca.bukkit.api.events.*;
 
 public class AuthenticationListener implements Listener {
@@ -27,9 +26,6 @@ public class AuthenticationListener implements Listener {
 
   @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
   public void onPreJoin(PlayerJoinEvent event) {
-    if (bcab.getAPI().getConfigHandler().Checktype != CheckType.SQL) {
-      return;
-    }
     if (bcab.getAPI().isAuthenticated(event.getPlayer())) {
       bcab.getServer().getPluginManager().callEvent(new LoginEvent(event.getPlayer()));
       return;
@@ -58,9 +54,6 @@ public class AuthenticationListener implements Listener {
 
   @EventHandler
   public void onLoging(LoginEvent event) {
-    if (bcab.getAPI().getConfigHandler().Checktype != CheckType.SQL) {
-      return;
-    }
     if (!logout.containsKey(event.get())) {
       logout.put(event.get(), bcab.getServer().getScheduler().runTaskTimerAsynchronously(bcab, new Runnable() {
         @Override
@@ -82,9 +75,6 @@ public class AuthenticationListener implements Listener {
 
   @EventHandler
   public void onQuit(PlayerQuitEvent event) {
-    if (bcab.getAPI().getConfigHandler().Checktype != CheckType.SQL) {
-      return;
-    }
     if (login.contains(event.getPlayer())) {
       login.get(event.getPlayer()).cancel();
       login.remove(event.getPlayer());

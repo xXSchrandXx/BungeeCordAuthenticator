@@ -41,8 +41,9 @@ public class SQLHandler {
    * @param SQLProperties The {@link Path} to the {@link HikariConfig}. 
    * @param Logger The {@link Logger}.
    * @param isDebug Weather debug messages should be shown.
+   * @throws SQLException {@link SQLException}
    */
-  public SQLHandler(Path SQLProperties, Logger Logger, Boolean isDebug) {
+  public SQLHandler(Path SQLProperties, Logger Logger, Boolean isDebug) throws SQLException {
     this.logger = Logger;
     this.isdebug = isDebug;
     HikariConfig config = new HikariConfig(SQLProperties.toString());
@@ -56,14 +57,9 @@ public class SQLHandler {
     if (database == null)
       logger.warning("Error with " + SQLProperties.toString() + " dataSource.databaseName not given");
     hikari = new HikariDataSource(config);
-    try {
-      if (!existsTable()) {
-        logger.warning("Table does not exists. Creating it.");
-        createTable();
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
+    if (!existsTable()) {
+      logger.warning("Table does not exists. Creating it.");
+      createTable();
     }
   }
 
@@ -336,7 +332,7 @@ public class SQLHandler {
       logger.warning("SQLHandler.removePlayerEntry | UUID is null, skipping");
       return;
     }
-    update("DELETE FROM `" + database + "`.`" + table + "` WHERE `uuid`=" + uuid.toString() + "'");
+    update("DELETE FROM `" + database + "`.`" + table + "` WHERE `uuid`='" + uuid.toString() + "'");
   }
 
   /**

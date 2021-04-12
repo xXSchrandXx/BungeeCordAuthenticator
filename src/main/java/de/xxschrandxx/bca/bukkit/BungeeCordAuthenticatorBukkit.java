@@ -21,11 +21,28 @@ public class BungeeCordAuthenticatorBukkit extends JavaPlugin {
     return instance;
   }
 
+  public void loadAPI() {
+    api = new BungeeCordAuthenticatorBukkitAPI(this);
+  }
+
   public void onEnable() {
 
     instance = this;
 
-    api = new BungeeCordAuthenticatorBukkitAPI(this);
+    loadAPI();
+
+    if (getAPI().getConfigHandler().isDebugging)
+      getLogger().info("onEnable | loaded BungeeCordAuthenticatorBukkitAPI.");
+    if (api == null) {
+      getLogger().warning("onEnable | BungeeCordAuthenticatorBukkitAPI is null. disabeling plugin.");
+      this.onDisable();
+      return;
+    }
+    if (api.hasSQLError()) {
+      getLogger().warning("onEnable | SQL connection failed. Please enter valid SQL connection datas in 'hikariconfig.properties' file.");
+      this.onDisable();
+      return;
+    }
 
     if (api.getConfigHandler().isDebugging)
       getLogger().info("onEnable | loading listener...");

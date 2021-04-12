@@ -9,8 +9,6 @@ import org.bstats.charts.SingleLineChart;
 import de.xxschrandxx.bca.bungee.api.BungeeCordAuthenticatorBungeeAPI;
 import de.xxschrandxx.bca.bungee.command.*;
 import de.xxschrandxx.bca.bungee.listener.*;
-import de.xxschrandxx.bca.core.CheckType;
-import de.xxschrandxx.bca.core.PluginChannels;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class BungeeCordAuthenticatorBungee extends Plugin {
@@ -49,21 +47,13 @@ public class BungeeCordAuthenticatorBungee extends Plugin {
       this.onDisable();
       return;
     }
-
-    if (getAPI().getConfigHandler().Checktype == CheckType.PluginMessage) {
-      if (getAPI().getConfigHandler().isDebugging)
-        getLogger().info("onEnable | loadeding channel...");
-      //Loading Channel
-      getProxy().registerChannel(PluginChannels.login);
-      if (getAPI().getConfigHandler().isDebugging)
-        getLogger().info("onEnable | loaded channel " + PluginChannels.login);
-      getProxy().registerChannel(PluginChannels.logout);
-      if (getAPI().getConfigHandler().isDebugging)
-        getLogger().info("onEnable | loaded channel " + PluginChannels.logout);
-      getProxy().registerChannel(PluginChannels.sync);
-      if (getAPI().getConfigHandler().isDebugging)
-        getLogger().info("onEnable | loaded channel " + PluginChannels.sync);
+    if (api.hasSQLError()) {
+      getLogger().warning("onEnable | SQL connection failed. Please enter valid SQL connection datas in 'hikariconfig.properties' file.");
+      error = true;
+      this.onDisable();
+      return;
     }
+
     if (getAPI().getConfigHandler().isDebugging)
       getLogger().info("onEnable | loading commands...");
     //Loading Commands
@@ -86,9 +76,6 @@ public class BungeeCordAuthenticatorBungee extends Plugin {
     if (getAPI().getConfigHandler().isDebugging)
       getLogger().info("onEnable | loading listener...");
     //Loading Listener
-    getProxy().getPluginManager().registerListener(this, new PluginMessageListener(this));
-    if (getAPI().getConfigHandler().isDebugging)
-      getLogger().info("onEnable | loaded PluginMessageListener");
     getProxy().getPluginManager().registerListener(this, new BCABListener(this));
     if (getAPI().getConfigHandler().isDebugging)
       getLogger().info("onEnable | loaded BCABListener");
