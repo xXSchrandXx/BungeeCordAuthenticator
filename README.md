@@ -20,6 +20,9 @@ Versions:
   * 0.0.3:
     * [JavaDoc](https://maven.gamestrike.de/docs/BungeeCordAuthenticator/0.0.3/apidocs/)
     * [BungeeCordAuthenticator](https://maven.gamestrike.de/docs/BungeeCordAuthenticator/0.0.3/BungeeCordAuthenticator-0.0.3.jar)
+  * 0.0.4-SNAPSHOT:
+    * [JavaDoc](https://maven.gamestrike.de/docs/BungeeCordAuthenticator/0.0.4-SNAPSHOT/apidocs/)
+    * [BungeeCordAuthenticator](https://maven.gamestrike.de/docs/BungeeCordAuthenticator/0.0.4-SNAPSHOT/BungeeCordAuthenticator-0.0.4-SNAPSHOT.jar)
 
 ## Installation:
 <ol>

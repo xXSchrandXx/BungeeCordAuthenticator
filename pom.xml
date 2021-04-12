@@ -12,7 +12,7 @@
   <name>BungeeCordAuthenticator</name>
   <artifactId>BungeeCordAuthenticator</artifactId>
   <groupId>de.xxschrandxx.bca</groupId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <dependencies>
